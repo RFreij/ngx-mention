@@ -51,7 +51,6 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
         this.defaultConfig = {
             denotationCharacter: '@',
-            showDenotationCharacter: true,
             minimalCharacters: 0,
             disableSearch: false,
         };
@@ -77,10 +76,6 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
             if (this.nativeElement.value.endsWith(mentionDenotationCharacter)) {
                 this.startIndex = this.nativeElement.value.length;
-
-                if (this.ngxMentionConfig.showDenotationCharacter) {
-                    this.startIndex++;
-                }
 
                 this.searching = true;
             }

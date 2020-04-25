@@ -8,7 +8,7 @@ Provides auto-complete suggestions for @mentions in text input field and text ar
 
 ## Usage
 
-Add the package as a dependency to your project using: 
+Add the package as a dependency to your project using:
 
 ```bash
 npm install @netcreaties/ngx-mention
@@ -16,7 +16,7 @@ npm install @netcreaties/ngx-mention
 
 ```bash
 yarn add @netcreaties/ngx-mention
-``` 
+```
 
 Add the module to your app.module imports:
 ```typescript
@@ -44,7 +44,6 @@ The following configuration options are available
 Option                      | Default   | Description
 ---                         | ---       | ---
 denotationCharacter         | @         | Trigger on which the mention list is activated
-ShowDenotationCharacter     | true      | Indicate if denotationCharacter should be visible in result
 minimalCharacters           | 0         | Minimal amount of characters before search is activated
 disableSearch               | false     | Set this to true for async search (using the search Output)
 
