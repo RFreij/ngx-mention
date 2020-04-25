@@ -1,0 +1,15 @@
+<div
+    #container
+    class="ngx-mention"
+    [ngClass]="{ 'ngx-mention--visible': !hidden }"
+>
+    <div
+        class="ngx-mention__item"
+        [ngClass]="{ 'ngx-mention__item--selected': i === activeIndex }"
+        *ngFor="let item of items; let i = index; trackBy: trackByItemId"
+        id="mention-item-{{ i }}"
+        (mouseclick)="onItemCLick()"
+    >
+        {{ item.value }}
+    </div>
+</div>

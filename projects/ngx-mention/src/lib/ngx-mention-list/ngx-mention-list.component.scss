@@ -1,0 +1,56 @@
+
+.ngx-mention {
+    width: 270px;
+    border: 1px solid #f0f0f0;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 12px 0 rgba(30, 30, 30, 0.08);
+    z-index: 9001;
+
+    position: absolute;
+    margin-bottom: 42px;
+
+    height: auto;
+    max-height: 150px;
+    overflow: hidden;
+
+    border-radius: 4px;
+
+    scroll-behavior: smooth;
+
+    visibility: hidden;
+    opacity: 0;
+
+    transition: opacity ease-in-out .2s;
+
+    &--visible {
+        visibility: visible;
+        opacity: 100;
+
+        transition: opacity ease-in-out .2s;
+    }
+
+    &__item {
+        &--selected {
+            background-color: #f2f5f8;
+        }
+
+        vertical-align: middle;
+        padding: 0 20px;
+
+        line-height: 44px;
+        height: 44px;
+
+        color: #4a4a4a;
+
+        cursor: pointer;
+
+        &:hover {
+            background-color: #f2f5f8;
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 0;
+        }
+    }
+}

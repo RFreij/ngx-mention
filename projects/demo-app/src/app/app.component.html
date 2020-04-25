@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Ngx mention demo app</title>
+    </head>
+    <body>
+        <input
+            type="text"
+            [ncNgxMention]="items"
+            [ngxMentionConfig]="ngxMentionConfig"
+            (search)="onMentionSearch($event)"
+            style="position: relative; line-height: 20px;"
+        />
+        <textarea
+            [ncNgxMention]="items"
+            [ngxMentionConfig]="ngxMentionConfig"
+            (search)="onMentionSearch($event)"
+            style="position: relative; line-height: 20px;"
+        ></textarea>
+    </body>
+</html>

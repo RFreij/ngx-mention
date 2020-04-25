@@ -1,5 +1,7 @@
 # Ngx Mention
 
+This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.7.
+
 ---
 
 Very simple Angular mentions inspired by [Angular mentions](https://github.com/dmacfarlane/angular-mentions)
