@@ -1,6 +1,6 @@
 # Ngx Mention
 
----
+> :warning: Package is under active development, every minor release will be a breaking release untill v1.0
 
 Very simple Angular mentions inspired by [Angular mentions](https://github.com/dmacfarlane/angular-mentions)
 

@@ -122,9 +122,14 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
                 }
             });
 
-        this.blur$ = fromEvent(this.nativeElement, 'blur').subscribe(() => {
-            this.stopSearch();
-        });
+        this.blur$ = fromEvent(this.nativeElement, 'blur').subscribe(
+            ($event) => {
+                if ($event instanceof KeyboardEvent) {
+                    this.stopEvent($event);
+                    this.stopSearch();
+                }
+            },
+        );
     }
 
     /**

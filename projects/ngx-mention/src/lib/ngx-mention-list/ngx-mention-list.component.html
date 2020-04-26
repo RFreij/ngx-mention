@@ -8,7 +8,7 @@
         [ngClass]="{ 'ngx-mention__item--selected': i === activeIndex }"
         *ngFor="let item of items; let i = index; trackBy: trackByItemId"
         id="mention-item-{{ i }}"
-        (mouseclick)="onItemCLick()"
+        (click)="onItemCLick(i)"
     >
         {{ item.value }}
     </div>

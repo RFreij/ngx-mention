@@ -141,7 +141,8 @@ export class NgxMentionListComponent {
      * @author Roy Freij <info@royfreij.nl>
      * @version 1.0.0
      */
-    public onItemCLick(): void {
+    public onItemCLick(index: number): void {
+        this.activeIndex = index;
         this.itemClick.emit();
     }
 
