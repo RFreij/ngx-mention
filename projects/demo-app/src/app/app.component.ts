@@ -13,18 +13,6 @@ export class AppComponent {
 
     public items = [
         {
-            id: 1,
-            value: 'user',
-        },
-        {
-            id: 2,
-            value: 'tekstschrijver',
-        },
-        {
-            id: 3,
-            value: 'admin',
-        },
-        {
             id: 4,
             value: 'abominablejustine',
         },
