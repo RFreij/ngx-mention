@@ -57,3 +57,10 @@ Output                                              | Description
 ---                                                 | ---
 `@Output() searchTerm: EventEmitter<string>`        | Event that is emitted whenever the search term changes. Can be used to trigger async search.
 `@Output() selectItem: EventEmitter<NgxMention>`    | Event that is emitted when an item is selected
+
+### Todo
+* Extend demo-app to see code examples
+* Extend demo-app with more examples
+* Add basic styles to demo-app to make it more presentable
+* Add tests
+* Add support for multiple denotation characters
