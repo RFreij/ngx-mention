@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { NgxMention, NgxMentionConfig } from '../ngx-mention.config';
 
-const EXTRA_OFFSET = 5;
+const EXTRA_OFFSET = 20;
 const FIRST_ITEM_INDEX = 0;
 const SELECTED_CLASS = 'ngx-mention__item--selected';
 

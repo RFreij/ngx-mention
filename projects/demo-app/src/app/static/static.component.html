@@ -76,3 +76,22 @@
     (search)="onMinCharacterSearchMentionSearch($event)"
     style="position: relative; line-height: 20px;"
 ></textarea>
+
+<h2>Drop up configuration</h2>
+
+<p>
+    Sometimes it is needed to have the mention list drop up instead of down. The
+    dropUp configuration will fix this for you.
+</p>
+
+<input
+    type="text"
+    [ncNgxMention]="dropUpItems"
+    [ngxMentionConfig]="dropUpConfig"
+    style="position: relative; line-height: 20px;"
+/>
+<textarea
+    [ncNgxMention]="dropUpItems"
+    [ngxMentionConfig]="dropUpConfig"
+    style="position: relative; line-height: 20px;"
+></textarea>

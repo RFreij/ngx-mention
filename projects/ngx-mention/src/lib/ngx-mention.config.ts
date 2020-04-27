@@ -8,4 +8,5 @@ export interface NgxMentionConfig {
     showDenotationCharacter?: boolean;
     minimalCharacters?: number;
     disableSearch?: boolean;
+    dropUp?: boolean;
 }

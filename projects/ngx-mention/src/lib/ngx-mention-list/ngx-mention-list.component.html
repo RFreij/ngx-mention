@@ -1,7 +1,10 @@
 <div
     #container
     class="ngx-mention"
-    [ngClass]="{ 'ngx-mention--visible': !hidden }"
+    [ngClass]="{
+        'ngx-mention--visible': !hidden,
+        'ngx-mention--drop-up': ngxMentionConfig.dropUp
+    }"
 >
     <div
         class="ngx-mention__item"

@@ -53,6 +53,7 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
             denotationCharacter: '@',
             minimalCharacters: 0,
             disableSearch: false,
+            dropUp: false,
         };
     }
 
@@ -167,7 +168,6 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
             this.showMentionList();
 
             if (!this.ngxMentionConfig.disableSearch) {
-                console.log(this.items);
                 matches = this.items.filter((item: NgxMention) => {
                     return item.value
                         .toLowerCase()

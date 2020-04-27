@@ -15,10 +15,12 @@ export class StaticComponent {
     public customSearchItems = Users;
     public customDenotationItems = Users;
     public minCharacterItems = Users;
+    public dropUpItems = Users;
 
     public customSearchNgxMentionConfig: NgxMentionConfig;
     public customDenotationCharacterConfig: NgxMentionConfig;
     public minCharactersConfig: NgxMentionConfig;
+    public dropUpConfig: NgxMentionConfig;
 
     constructor() {
         this.customSearchNgxMentionConfig = {
@@ -31,6 +33,10 @@ export class StaticComponent {
 
         this.minCharactersConfig = {
             minimalCharacters: 3,
+        };
+
+        this.dropUpConfig = {
+            dropUp: true,
         };
     }
 

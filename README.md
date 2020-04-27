@@ -50,6 +50,7 @@ Option                      | Default   | Description
 denotationCharacter         | @         | Trigger on which the mention list is activated
 minimalCharacters           | 0         | Minimal amount of characters before search is activated
 disableSearch               | false     | Set this to true for async search (using the search Output)
+dropUp                      | false     | Mention list should be a drop up instead of dropdown
 
 For example
 ```html

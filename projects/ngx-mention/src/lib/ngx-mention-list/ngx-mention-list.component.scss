@@ -8,10 +8,11 @@
     z-index: 9001;
 
     position: absolute;
-    margin-bottom: 42px;
+    top: 100%;
+    left: 0;
 
     height: auto;
-    max-height: 150px;
+    max-height: 200px;
     overflow: hidden;
 
     border-radius: 4px;
@@ -28,6 +29,12 @@
         opacity: 100;
 
         transition: opacity ease-in-out .2s;
+    }
+
+    &--drop-up {
+        bottom: 100%;
+        top: auto;
+        margin-bottom: 15px;
     }
 
     &__item {
