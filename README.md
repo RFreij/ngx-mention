@@ -6,6 +6,10 @@ Very simple Angular mentions inspired by [Angular mentions](https://github.com/d
 
 Provides auto-complete suggestions for @mentions in text input field and text area's
 
+## Demo
+
+Demo is available [here](https://rfreij.github.io/ngx-mention/)
+
 ## Usage
 
 Add the package as a dependency to your project using:
@@ -60,7 +64,6 @@ Output                                              | Description
 
 ### Todo
 * Extend demo-app to see code examples
-* Extend demo-app with more examples
 * Add basic styles to demo-app to make it more presentable
 * Add tests
 * Add support for multiple denotation characters

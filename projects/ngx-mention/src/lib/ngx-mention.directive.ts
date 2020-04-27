@@ -20,8 +20,8 @@ import { NgxMention, NgxMentionConfig } from './ngx-mention.config';
     selector: '[ncNgxMention]',
 })
 export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
-    @Input('ncNgxMention') public items: NgxMention[];
-    @Input() public ngxMentionConfig: NgxMentionConfig;
+    @Input('ncNgxMention') public items: NgxMention[] = [];
+    @Input() public ngxMentionConfig: NgxMentionConfig = {};
 
     @Output() searchTerm: EventEmitter<string>;
     @Output() selectItem: EventEmitter<NgxMention>;
@@ -63,6 +63,7 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
      * @version 1.0.0
      */
     public ngOnInit(): void {
+        console.log(this.items);
         this.ngxMentionConfig = {
             ...this.defaultConfig,
             ...this.ngxMentionConfig,
@@ -167,6 +168,7 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
             this.showMentionList();
 
             if (!this.ngxMentionConfig.disableSearch) {
+                console.log(this.items);
                 matches = this.items.filter((item: NgxMention) => {
                     return item.value
                         .toLowerCase()

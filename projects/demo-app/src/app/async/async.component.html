@@ -1,0 +1,42 @@
+<h2>Async search</h2>
+
+<p>
+    We can perform async search using disableSearch and the searchTerm output.
+    The example below is using the HttpClient to retrieve values from a json
+    file. It has a delay time of 200ms to simulate an API request
+</p>
+
+<input
+    type="text"
+    [ncNgxMention]="asyncSearchItems"
+    [ngxMentionConfig]="customSearchNgxMentionConfig"
+    (searchTerm)="onSearch($event)"
+    style="position: relative; line-height: 20px;"
+/>
+<textarea
+    [ncNgxMention]="asyncSearchItems"
+    [ngxMentionConfig]="customSearchNgxMentionConfig"
+    (searchTerm)="onSearch($event)"
+    style="position: relative; line-height: 20px;"
+></textarea>
+
+<h2>Async Custom denotation character</h2>
+
+<p>
+    We can change the denotation character to any character we want, here we
+    have set the character to '$'
+</p>
+
+<input
+    type="text"
+    [ncNgxMention]="customDenotationItems"
+    [ngxMentionConfig]="customDenotationCharacterConfig"
+    (searchTerm)="onCustomDenotationSearch($event)"
+    style="position: relative; line-height: 20px;"
+/>
+<textarea
+    [ncNgxMention]="customDenotationItems"
+    [ngxMentionConfig]="customDenotationCharacterConfig"
+    (searchTerm)="onCustomDenotationSearch($event)"
+    style="position: relative; line-height: 20px;"
+></textarea>

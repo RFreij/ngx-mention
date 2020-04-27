@@ -6,18 +6,8 @@
         <title>Ngx mention demo app</title>
     </head>
     <body>
-        <input
-            type="text"
-            [ncNgxMention]="items"
-            [ngxMentionConfig]="ngxMentionConfig"
-            (search)="onMentionSearch($event)"
-            style="position: relative; line-height: 20px;"
-        />
-        <textarea
-            [ncNgxMention]="items"
-            [ngxMentionConfig]="ngxMentionConfig"
-            (search)="onMentionSearch($event)"
-            style="position: relative; line-height: 20px;"
-        ></textarea>
+        <h1>Ngx Mention</h1>
+        <app-static></app-static>
+        <app-async></app-async>
     </body>
 </html>
