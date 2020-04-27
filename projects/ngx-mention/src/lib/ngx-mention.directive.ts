@@ -63,7 +63,6 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
      * @version 1.0.0
      */
     public ngOnInit(): void {
-        console.log(this.items);
         this.ngxMentionConfig = {
             ...this.defaultConfig,
             ...this.ngxMentionConfig,
