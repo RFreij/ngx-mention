@@ -6,9 +6,9 @@ import {
     Renderer2,
     ViewChild,
 } from '@angular/core';
+import { getCaretCoordinates } from '../caret-coords';
 import { NgxMention, NgxMentionConfig } from '../ngx-mention.config';
 
-const EXTRA_OFFSET = 20;
 const FIRST_ITEM_INDEX = 0;
 const SELECTED_CLASS = 'ngx-mention__item--selected';
 
@@ -45,19 +45,26 @@ export class NgxMentionListComponent {
         parentElement: HTMLInputElement | HTMLTextAreaElement,
     ): void {
         const nativeElement = this.elementRef.nativeElement;
-        const parentBounds = parentElement.getBoundingClientRect();
 
-        const offsetTop =
-            parseFloat(window.getComputedStyle(parentElement).height) +
-            EXTRA_OFFSET;
+        const coords = getCaretCoordinates(
+            parentElement,
+            parentElement.selectionStart,
+            null,
+        );
+        coords.top =
+            parentElement.offsetTop + coords.top - parentElement.scrollTop;
+        coords.left =
+            parentElement.offsetLeft + coords.left - parentElement.scrollLeft;
+
+        const offsetTop = parseFloat(
+            window.getComputedStyle(parentElement).lineHeight,
+        );
+
+        const top = coords.top + offsetTop;
 
         this.renderer.setStyle(nativeElement, 'position', 'absolute');
-        this.renderer.setStyle(nativeElement, 'left', `${parentBounds.left}px`);
-        this.renderer.setStyle(
-            nativeElement,
-            'top',
-            `${parentBounds.top + offsetTop}px`,
-        );
+        this.renderer.setStyle(nativeElement, 'left', `${coords.left}px`);
+        this.renderer.setStyle(nativeElement, 'top', `${top}px`);
     }
 
     /**
