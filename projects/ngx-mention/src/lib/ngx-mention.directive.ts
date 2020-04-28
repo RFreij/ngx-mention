@@ -100,7 +100,7 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
                 }),
             )
             .subscribe(($event: KeyboardEvent) => {
-                if (!this.mentionList?.hidden) {
+                if (!this.mentionList?.hidden && this.searching) {
                     switch ($event.key) {
                         case 'Tab':
                         case 'Enter':
