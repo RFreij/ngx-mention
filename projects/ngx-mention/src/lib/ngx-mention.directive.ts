@@ -199,6 +199,7 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
         const valueLength = this.nativeElement.value.length;
         this.nativeElement.setSelectionRange(valueLength, valueLength);
+        this.nativeElement.dispatchEvent(new Event('input'));
 
         this.selectItem.emit(selectedItem);
         this.stopSearch();
