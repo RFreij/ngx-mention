@@ -57,6 +57,22 @@ For example
 <input type="text" [ncNgxMention]="items" [ngxMentionConfig]="{denotationCharacter: '$', minimalCharacters: 3}">
 ```
 
+### Custom templates
+It is possible to add a custom template to change the way items are visible. The given label will be used to retrieve the correct name to be visible in the input field.
+
+```Html
+<ng-template #customTemplate let-item="item">
+    {{ item.username }} {{ item.id }}
+</ng-template>
+
+<input
+    type="text"
+    [ncNgxMention]="[{id: 1, username: 'John'}, {id: 2, username: 'Doe'}]"
+    [customTemplate]="{ template: customTemplate, label: 'username' }"
+/>
+```
+
+
 ### Output events
 Output                                              | Description
 ---                                                 | ---
@@ -68,3 +84,9 @@ Output                                              | Description
 * Add basic styles to demo-app to make it more presentable
 * Add tests
 * Add support for multiple denotation characters
+
+### Sites using this package
+Are you using this package and do you want to be added to the list? Please create a pull request with your entry.
+
+* [Voetbalwedden](https://www.voetbalwedden.net)
+* [Bettingfans](https://www.bettingfans.com)

@@ -14,5 +14,12 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/RFreij/ngx-mention.git"
-  }
+  },
+  "keywords": [
+      "Angular",
+      "mentions",
+      "ngx-mention",
+      "tag",
+      "autocomplete"
+  ]
 }
