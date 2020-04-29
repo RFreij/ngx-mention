@@ -42,10 +42,13 @@
             background-color: #f2f5f8;
         }
 
-        vertical-align: middle;
-        padding: 0 20px;
+        display: flex;
+        align-items: center;
 
-        line-height: 44px;
+        vertical-align: middle;
+        padding: 10px 20px;
+        line-height: 22px;
+
         height: 44px;
 
         color: #4a4a4a;
