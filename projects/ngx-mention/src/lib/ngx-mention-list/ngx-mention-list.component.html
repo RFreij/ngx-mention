@@ -13,6 +13,17 @@
         id="mention-item-{{ i }}"
         (click)="onItemCLick(i)"
     >
-        {{ item.value }}
+        <ng-container *ngIf="customTemplate; else defaultTemplate">
+            <ng-container
+                *ngTemplateOutlet="
+                    customTemplate.template;
+                    context: { item: item }
+                "
+            >
+            </ng-container>
+        </ng-container>
+        <ng-template #defaultTemplate>
+            {{ item.value }}
+        </ng-template>
     </div>
 </div>

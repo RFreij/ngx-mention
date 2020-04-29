@@ -96,3 +96,26 @@
     [ngxMentionConfig]="dropUpConfig"
     style="position: relative; line-height: 20px;"
 ></textarea>
+
+<h2>Custom template</h2>
+
+<ng-template #customTemplate let-item="item">
+    {{ item.username }} {{ item.id }}
+</ng-template>
+
+<p>
+    You may wish to use a custom template to alter the search results. The
+    customTemplate input provides that ability.
+</p>
+
+<input
+    type="text"
+    [ncNgxMention]="customTemplateItems"
+    [customTemplate]="{ template: customTemplate, label: 'username' }"
+    style="position: relative; line-height: 20px;"
+/>
+<textarea
+    [ncNgxMention]="customTemplateItems"
+    [customTemplate]="{ template: customTemplate, label: 'username' }"
+    style="position: relative; line-height: 20px;"
+></textarea>

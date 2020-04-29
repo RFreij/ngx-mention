@@ -14,14 +14,19 @@ import {
 import { fromEvent, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { NgxMentionListComponent } from './ngx-mention-list/ngx-mention-list.component';
-import { NgxMention, NgxMentionConfig } from './ngx-mention.config';
+import {
+    NgxMention,
+    NgxMentionConfig,
+    NgxMentionTemplate,
+} from './ngx-mention.config';
 
 @Directive({
     selector: '[ncNgxMention]',
 })
 export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
-    @Input('ncNgxMention') public items: NgxMention[] = [];
+    @Input('ncNgxMention') public items: any[] = [];
     @Input() public ngxMentionConfig: NgxMentionConfig = {};
+    @Input() public customTemplate?: NgxMentionTemplate;
 
     @Output() searchTerm: EventEmitter<string>;
     @Output() selectItem: EventEmitter<NgxMention>;
@@ -169,9 +174,15 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
             if (!this.ngxMentionConfig.disableSearch) {
                 matches = this.items.filter((item: NgxMention) => {
-                    return item.value
-                        .toLowerCase()
-                        .startsWith(searchValue.toLowerCase());
+                    if (this.customTemplate) {
+                        return item[this.customTemplate.label]
+                            .toLowerCase()
+                            .startsWith(searchValue.toLowerCase());
+                    } else {
+                        return item.value
+                            .toLowerCase()
+                            .startsWith(searchValue.toLowerCase());
+                    }
                 });
 
                 this.updateMentionListItems(matches);
@@ -189,10 +200,17 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
         const selectedItem = this.mentionList.items[
             this.mentionList.activeIndex
         ];
+        let selectedItemValue: string;
+
+        if (this.customTemplate) {
+            selectedItemValue = selectedItem[this.customTemplate.label];
+        } else {
+            selectedItemValue = selectedItem.value;
+        }
 
         this.nativeElement.value =
             this.nativeElement.value.substring(0, this.startIndex) +
-            selectedItem.value +
+            selectedItemValue +
             ' ';
 
         this.nativeElement.focus();
@@ -243,6 +261,10 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
         this.mentionList.position(this.nativeElement);
         this.mentionList.resetScrollTop();
         this.mentionList.ngxMentionConfig = this.ngxMentionConfig;
+
+        if (this.customTemplate) {
+            this.mentionList.customTemplate = this.customTemplate;
+        }
 
         if (!this.mentionListItemClick$) {
             this.mentionListItemClick$ = this.mentionList.itemClick.subscribe(
