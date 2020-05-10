@@ -82,17 +82,24 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
             if (this.nativeElement.value.endsWith(mentionDenotationCharacter)) {
                 this.startIndex = this.nativeElement.value.length;
-
-                this.searching = true;
             }
 
             const endIndex = this.nativeElement.value.length;
+
+            const searchValue = this.nativeElement.value.substring(
+                this.startIndex,
+                endIndex,
+            );
+
+            if (searchValue.length >= this.ngxMentionConfig.minimalCharacters) {
+                this.searching = true;
+            }
 
             if (this.searching) {
                 if (endIndex < this.startIndex) {
                     this.stopSearch();
                 } else {
-                    this.startSearching(endIndex);
+                    this.startSearching(searchValue);
                 }
             }
         });
@@ -149,6 +156,10 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
     public ngOnChanges(changes: SimpleChanges): void {
         if (changes.items && !changes.items.firstChange) {
             this.updateMentionListItems(this.items);
+
+            if (changes.items.currentValue.length === 0) {
+                this.stopSearch();
+            }
         }
     }
 
@@ -160,33 +171,27 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
      * @author Roy Freij <info@royfreij.nl>
      * @version 1.0.0
      */
-    private async startSearching(endIndex: number) {
+    private async startSearching(searchValue) {
         let matches: NgxMention[];
-        const searchValue = this.nativeElement.value.substring(
-            this.startIndex,
-            endIndex,
-        );
 
-        if (searchValue.length >= this.ngxMentionConfig.minimalCharacters) {
-            this.searchTerm.emit(searchValue);
+        this.searchTerm.emit(searchValue);
 
-            this.showMentionList();
+        this.showMentionList();
 
-            if (!this.ngxMentionConfig.disableSearch) {
-                matches = this.items.filter((item: NgxMention) => {
-                    if (this.customTemplate) {
-                        return item[this.customTemplate.label]
-                            .toLowerCase()
-                            .startsWith(searchValue.toLowerCase());
-                    } else {
-                        return item.value
-                            .toLowerCase()
-                            .startsWith(searchValue.toLowerCase());
-                    }
-                });
+        if (!this.ngxMentionConfig.disableSearch) {
+            matches = this.items.filter((item: NgxMention) => {
+                if (this.customTemplate) {
+                    return item[this.customTemplate.label]
+                        .toLowerCase()
+                        .startsWith(searchValue.toLowerCase());
+                } else {
+                    return item.value
+                        .toLowerCase()
+                        .startsWith(searchValue.toLowerCase());
+                }
+            });
 
-                this.updateMentionListItems(matches);
-            }
+            this.updateMentionListItems(matches);
         }
     }
 

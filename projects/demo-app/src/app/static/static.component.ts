@@ -57,18 +57,14 @@ export class StaticComponent {
     }
 
     public onCustomSearchMentionSearch($event: string) {
-        this.customSearchItems = this.customSearchItems.filter(
-            (item: NgxMention) => {
-                return item.value.toLowerCase().includes($event.toLowerCase());
-            },
-        );
+        this.customSearchItems = this.items.filter((item: NgxMention) => {
+            return item.value.toLowerCase().includes($event.toLowerCase());
+        });
     }
 
     public onMinCharacterSearchMentionSearch($event: string) {
-        this.customSearchItems = this.customSearchItems.filter(
-            (item: NgxMention) => {
-                return item.value.toLowerCase().includes($event.toLowerCase());
-            },
-        );
+        this.minCharacterItems = this.items.filter((item: NgxMention) => {
+            return item.value.toLowerCase().includes($event.toLowerCase());
+        });
     }
 }
