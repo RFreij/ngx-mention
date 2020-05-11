@@ -82,6 +82,7 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
             if (this.nativeElement.value.endsWith(mentionDenotationCharacter)) {
                 this.startIndex = this.nativeElement.value.length;
+                this.searching = true;
             }
 
             const endIndex = this.nativeElement.value.length;
@@ -91,11 +92,10 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
                 endIndex,
             );
 
-            if (searchValue.length >= this.ngxMentionConfig.minimalCharacters) {
-                this.searching = true;
-            }
-
-            if (this.searching) {
+            if (
+                this.searching &&
+                searchValue.length >= this.ngxMentionConfig.minimalCharacters
+            ) {
                 if (endIndex < this.startIndex) {
                     this.stopSearch();
                 } else {
