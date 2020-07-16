@@ -202,30 +202,33 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
      * @version 1.0.0
      */
     private onItemSelect(): void {
-        const selectedItem = this.mentionList.items[
-            this.mentionList.activeIndex
-        ];
-        let selectedItemValue: string;
+        if (this.mentionList) {
+            const selectedItem = this.mentionList.items[
+                this.mentionList.activeIndex
+            ];
 
-        if (this.customTemplate) {
-            selectedItemValue = selectedItem[this.customTemplate.label];
-        } else {
-            selectedItemValue = selectedItem.value;
+            let selectedItemValue: string;
+
+            if (this.customTemplate) {
+                selectedItemValue = selectedItem[this.customTemplate.label];
+            } else {
+                selectedItemValue = selectedItem.value;
+            }
+
+            this.nativeElement.value =
+                this.nativeElement.value.substring(0, this.startIndex) +
+                selectedItemValue +
+                ' ';
+
+            this.nativeElement.focus();
+
+            const valueLength = this.nativeElement.value.length;
+            this.nativeElement.setSelectionRange(valueLength, valueLength);
+            this.nativeElement.dispatchEvent(new Event('input'));
+
+            this.selectItem.emit(selectedItem);
+            this.stopSearch();
         }
-
-        this.nativeElement.value =
-            this.nativeElement.value.substring(0, this.startIndex) +
-            selectedItemValue +
-            ' ';
-
-        this.nativeElement.focus();
-
-        const valueLength = this.nativeElement.value.length;
-        this.nativeElement.setSelectionRange(valueLength, valueLength);
-        this.nativeElement.dispatchEvent(new Event('input'));
-
-        this.selectItem.emit(selectedItem);
-        this.stopSearch();
     }
 
     /**
