@@ -1,15 +1,16 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
     ComponentFactoryResolver,
     Directive,
     ElementRef,
     EventEmitter,
     Input,
-    isDevMode,
     OnChanges,
     OnDestroy,
     OnInit,
     Output,
     SimpleChanges,
+    TemplateRef,
     ViewContainerRef,
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
@@ -19,7 +20,6 @@ import {
     NgxMention,
     NgxMentionConfig,
     NgxMentions,
-    NgxMentionTemplate,
 } from './ngx-mention.config';
 
 @Directive({
@@ -28,7 +28,7 @@ import {
 export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
     @Input('ncNgxMention') public items: NgxMentions = [];
     @Input() public ngxMentionConfig: NgxMentionConfig = {};
-    @Input() public customTemplate?: NgxMentionTemplate;
+    @Input() public customTemplate?: TemplateRef<NgTemplateOutlet>;
 
     @Output() searchTerm: EventEmitter<string>;
     @Output() selectItem: EventEmitter<NgxMention>;
@@ -185,16 +185,10 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
         if (!this.ngxMentionConfig.disableSearch) {
             matches = this.items.filter((item: NgxMention) => {
-                if (this.customTemplate?.label) {
-                    return item[this.customTemplate.label]
-                        .toLowerCase()
-                        .startsWith(searchValue.toLowerCase());
-                } else {
-                    return this.ngxMentionConfig
-                        .formatSelected(item)
-                        .toLowerCase()
-                        .startsWith(searchValue.toLowerCase());
-                }
+                return this.ngxMentionConfig
+                    .formatSelected(item)
+                    .toLowerCase()
+                    .startsWith(searchValue.toLowerCase());
             });
 
             this.updateMentionListItems(matches);
@@ -213,21 +207,9 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
                 this.mentionList.activeIndex
             ];
 
-            let selectedItemValue: string;
-
-            if (this.customTemplate?.label) {
-                selectedItemValue = selectedItem[this.customTemplate.label];
-
-                if (isDevMode()) {
-                    console.warn(
-                        'ngx-mention: Usage of the customTemplate.label property is deprecated and will be removed in the next major version. Please use the formatSelected configuration callback instead.',
-                    );
-                }
-            } else {
-                selectedItemValue = this.ngxMentionConfig.formatSelected(
-                    selectedItem,
-                );
-            }
+            const selectedItemValue = this.ngxMentionConfig.formatSelected(
+                selectedItem,
+            );
 
             this.nativeElement.value =
                 this.nativeElement.value.substring(0, this.startIndex) +

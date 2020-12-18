@@ -15,10 +15,7 @@
     >
         <ng-container *ngIf="customTemplate; else defaultTemplate">
             <ng-container
-                *ngTemplateOutlet="
-                    customTemplate.template;
-                    context: { item: item }
-                "
+                *ngTemplateOutlet="customTemplate; context: { item: item }"
             >
             </ng-container>
         </ng-container>

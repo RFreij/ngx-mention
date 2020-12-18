@@ -1,17 +1,15 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
     Component,
     ElementRef,
     EventEmitter,
     Output,
     Renderer2,
+    TemplateRef,
     ViewChild,
 } from '@angular/core';
 import { getCaretCoordinates } from '../caret-coords';
-import {
-    NgxMention,
-    NgxMentionConfig,
-    NgxMentionTemplate,
-} from '../ngx-mention.config';
+import { NgxMention, NgxMentionConfig } from '../ngx-mention.config';
 
 const FIRST_ITEM_INDEX = 0;
 const SELECTED_CLASS = 'ngx-mention__item--selected';
@@ -26,7 +24,7 @@ export class NgxMentionListComponent {
     public hidden = true;
     public activeIndex = 0;
     public ngxMentionConfig: NgxMentionConfig;
-    public customTemplate: NgxMentionTemplate;
+    public customTemplate: TemplateRef<NgTemplateOutlet>;
 
     @ViewChild('container') public container: ElementRef;
     @Output() itemClick: EventEmitter<void>;

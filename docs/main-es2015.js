@@ -727,7 +727,7 @@ function NgxMentionListComponent_div_2_ng_container_1_Template(rf, ctx) { if (rf
     const item_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]().$implicit;
     const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngTemplateOutlet", ctx_r4.customTemplate.template)("ngTemplateOutletContext", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](2, _c1, item_r2));
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngTemplateOutlet", ctx_r4.customTemplate)("ngTemplateOutletContext", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](2, _c1, item_r2));
 } }
 function NgxMentionListComponent_div_2_ng_template_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](0);
@@ -968,7 +968,6 @@ function StaticComponent_ng_template_35_Template(rf, ctx) { if (rf & 1) {
     const item_r2 = ctx.item;
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate2"](" ", item_r2.username, " ", item_r2.id, " ");
 } }
-const _c1 = function (a0) { return { template: a0 }; };
 class StaticComponent {
     constructor() {
         this.items = _users__WEBPACK_IMPORTED_MODULE_1__["Users"];
@@ -1017,7 +1016,7 @@ StaticComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
     } if (rf & 2) {
         let _t;
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵqueryRefresh"](_t = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵloadQuery"]()) && (ctx.customTemplate = _t.first);
-    } }, decls: 41, vars: 28, consts: [[2, "padding", "24px"], ["href", "./assets/users.json"], ["type", "text", 2, "position", "relative", "line-height", "20px", 3, "ncNgxMention"], [2, "position", "relative", "line-height", "20px", 3, "ncNgxMention"], ["type", "text", 2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "searchTerm"], [2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "searchTerm"], ["type", "text", 2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig"], [2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig"], ["type", "text", 2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "search"], [2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "search"], ["customTemplate", ""], ["type", "text", 2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "customTemplate"], [2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "customTemplate"]], template: function StaticComponent_Template(rf, ctx) { if (rf & 1) {
+    } }, decls: 41, vars: 24, consts: [[2, "padding", "24px"], ["href", "./assets/users.json"], ["type", "text", 2, "position", "relative", "line-height", "20px", 3, "ncNgxMention"], [2, "position", "relative", "line-height", "20px", 3, "ncNgxMention"], ["type", "text", 2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "searchTerm"], [2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "searchTerm"], ["type", "text", 2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig"], [2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig"], ["type", "text", 2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "search"], [2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "search"], ["customTemplate", ""], ["type", "text", 2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "customTemplate"], [2, "position", "relative", "line-height", "20px", 3, "ncNgxMention", "ngxMentionConfig", "customTemplate"]], template: function StaticComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "h2");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2, "Default configuration");
@@ -1103,10 +1102,10 @@ StaticComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ncNgxMention", ctx.dropUpItems)("ngxMentionConfig", ctx.dropUpConfig);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](7);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ncNgxMention", ctx.customTemplateItems)("ngxMentionConfig", ctx.customTemplateConfig)("customTemplate", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](24, _c1, _r0));
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ncNgxMention", ctx.customTemplateItems)("ngxMentionConfig", ctx.customTemplateConfig)("customTemplate", _r0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ncNgxMention", ctx.customTemplateItems)("ngxMentionConfig", ctx.customTemplateConfig)("customTemplate", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](26, _c1, _r0));
-    } }, directives: [_ngx_mention_src_lib_ngx_mention_directive__WEBPACK_IMPORTED_MODULE_2__["NgxMentionDirective"]], styles: ["[_nghost-%COMP%] {\n  padding: 32px;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL3N0YXRpYy5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNJLGFBQUE7QUFDSiIsImZpbGUiOiJzdGF0aWMuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gICAgcGFkZGluZzogMzJweDtcbn1cbiJdfQ== */"] });
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ncNgxMention", ctx.customTemplateItems)("ngxMentionConfig", ctx.customTemplateConfig)("customTemplate", _r0);
+    } }, directives: [_ngx_mention_src_lib_ngx_mention_directive__WEBPACK_IMPORTED_MODULE_2__["NgxMentionDirective"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzdGF0aWMuY29tcG9uZW50LnNjc3MifQ== */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](StaticComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -1258,18 +1257,10 @@ class NgxMentionDirective {
             this.showMentionList();
             if (!this.ngxMentionConfig.disableSearch) {
                 matches = this.items.filter((item) => {
-                    var _a;
-                    if ((_a = this.customTemplate) === null || _a === void 0 ? void 0 : _a.label) {
-                        return item[this.customTemplate.label]
-                            .toLowerCase()
-                            .startsWith(searchValue.toLowerCase());
-                    }
-                    else {
-                        return this.ngxMentionConfig
-                            .formatSelected(item)
-                            .toLowerCase()
-                            .startsWith(searchValue.toLowerCase());
-                    }
+                    return this.ngxMentionConfig
+                        .formatSelected(item)
+                        .toLowerCase()
+                        .startsWith(searchValue.toLowerCase());
                 });
                 this.updateMentionListItems(matches);
             }
@@ -1282,19 +1273,9 @@ class NgxMentionDirective {
      * @version 1.0.0
      */
     onItemSelect() {
-        var _a;
         if (this.mentionList) {
             const selectedItem = this.mentionList.items[this.mentionList.activeIndex];
-            let selectedItemValue;
-            if ((_a = this.customTemplate) === null || _a === void 0 ? void 0 : _a.label) {
-                selectedItemValue = selectedItem[this.customTemplate.label];
-                if (Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["isDevMode"])()) {
-                    console.warn('ngx-mention: Usage of the customTemplate.label property is deprecated and will be removed in the next major version. Please use the formatSelected configuration callback instead.');
-                }
-            }
-            else {
-                selectedItemValue = this.ngxMentionConfig.formatSelected(selectedItem);
-            }
+            const selectedItemValue = this.ngxMentionConfig.formatSelected(selectedItem);
             this.nativeElement.value =
                 this.nativeElement.value.substring(0, this.startIndex) +
                     selectedItemValue +
