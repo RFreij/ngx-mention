@@ -1,5 +1,5 @@
 <mat-sidenav-container class="container">
-    <mat-sidenav #sidenav mode="side" [(opened)]="opened">
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened" style="width: 15%">
         Sidenav content
     </mat-sidenav>
 
@@ -12,7 +12,6 @@
                 <h1>Ngx Mention</h1>
             </mat-toolbar-row>
         </mat-toolbar>
-        <app-static></app-static>
-        <app-async></app-async>
+        <router-outlet></router-outlet>
     </mat-sidenav-content>
 </mat-sidenav-container>

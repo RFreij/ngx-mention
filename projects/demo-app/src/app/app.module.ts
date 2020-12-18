@@ -7,11 +7,28 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule, Routes } from '@angular/router';
 import { NgxMentionModule } from 'projects/ngx-mention/src/lib/ngx-mention.module';
 import { environment } from '../environments/environment';
 import { AppComponent } from './app.component';
 import { AsyncComponent } from './async/async.component';
 import { StaticComponent } from './static/static.component';
+
+const routes: Routes = [
+    {
+        path: '',
+        redirectTo: 'static',
+        pathMatch: 'full',
+    },
+    {
+        path: 'static',
+        component: StaticComponent,
+    },
+    {
+        path: 'async',
+        component: AsyncComponent,
+    },
+];
 
 @NgModule({
     declarations: [AppComponent, AsyncComponent, StaticComponent],
@@ -24,6 +41,7 @@ import { StaticComponent } from './static/static.component';
         MatToolbarModule,
         MatIconModule,
         MatButtonModule,
+        RouterModule.forRoot(routes),
     ],
     providers: [
         {
