@@ -6,6 +6,11 @@ import {
 } from 'projects/ngx-mention/src/lib/ngx-mention.config';
 import { Users } from '../users';
 
+interface CustomTemplateStructure {
+    id: number;
+    username: string;
+}
+
 @Component({
     selector: 'app-static',
     templateUrl: './static.component.html',
@@ -28,11 +33,10 @@ export class StaticComponent {
     public customDenotationCharacterConfig: NgxMentionConfig;
     public minCharactersConfig: NgxMentionConfig;
     public dropUpConfig: NgxMentionConfig;
-    public customTemplateConfig: NgxMentionConfig;
+    public customTemplateConfig: NgxMentionConfig<CustomTemplateStructure>;
 
-    @ViewChild('customTemplate') public customTemplate: TemplateRef<
-        NgTemplateOutlet
-    >;
+    @ViewChild('customTemplate')
+    public customTemplate: TemplateRef<NgTemplateOutlet>;
 
     constructor() {
         this.customSearchNgxMentionConfig = {
@@ -52,7 +56,9 @@ export class StaticComponent {
         };
 
         this.customTemplateConfig = {
-            disableSearch: true,
+            formatSelected: (item) => {
+                return item.username;
+            },
         };
     }
 

@@ -37,18 +37,26 @@ Add the `[ncNgxMention]` directive to your input or textarea element
 <input type="text" [ncNgxMention]="items">
 ```
 
-Where `items` is a array of objects defined like interface [NgxMention](projects/src/lib/ngx-mention/src/lib/ngx-mention.config.ts)
+Where `items` is a array of objects defined like the type [NgxMentions](projects/src/lib/ngx-mention/src/lib/ngx-mention.config.ts)
+NgxMentions is a simple type that maps your own given type into ngx-mention array type if you want it to.
+
+An example of defining your own type is shown below:
+
+```typescript
+    public ngxMentions: NgxMentions<type or interface of your choosing> = [];
+```
 
 ### Configuration options
 
 The following configuration options are available
 
-Option                      | Default   | Description
----                         | ---       | ---
-denotationCharacter         | @         | Trigger on which the mention list is activated
-minimalCharacters           | 0         | Minimal amount of characters before search is activated
-disableSearch               | false     | Set this to true for async search (using the search Output)
-dropUp                      | false     | Mention list should be a drop up instead of dropdown
+Option                      | Default       | Description
+---                         | ---           | ---
+denotationCharacter         | @             | Trigger on which the mention list is activated
+minimalCharacters           | 0             | Minimal amount of characters before search is activated
+disableSearch               | false         | Set this to true for async search (using the search Output)
+dropUp                      | false         | Mention list should be a drop up instead of dropdown
+formatSelected              | item.value    | Function to format selected item before inserting text
 
 For example
 ```html
@@ -56,7 +64,7 @@ For example
 ```
 
 ### Custom templates
-It is possible to add a custom template to change the way items are visible. The given label will be used to retrieve the correct name to be visible in the input field.
+It is possible to add a custom template to change the way items are visible.
 
 ```Html
 <ng-template #customTemplate let-item="item">
@@ -66,10 +74,30 @@ It is possible to add a custom template to change the way items are visible. The
 <input
     type="text"
     [ncNgxMention]="[{id: 1, username: 'John'}, {id: 2, username: 'Doe'}]"
-    [customTemplate]="{ template: customTemplate, label: 'username' }"
+    [customTemplate]="{ template: customTemplate }"
 />
 ```
 
+By default ngx-mention will expect a array structure defined like the interface [NgxMention](projects/src/lib/ngx-mention/src/lib/ngx-mention.config.ts).
+By default ngx-mention will look to a property value which will parsed into the input or textarea.
+
+You can alter this behavior by using the formatSelected configuration.
+
+An example for the above structure would be:
+
+```typescript
+interface OtherStructure {
+    id: number,
+    username: string
+}
+
+const configuration: NgxMentionConfig<OtherStructure> = {
+    formatSelected: (item) => {
+        // In here item will be typed as OtherStructure
+        return item.username;
+    }
+}
+```
 
 ### Output events
 Output                                              | Description

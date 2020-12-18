@@ -4,6 +4,7 @@ import {
     ElementRef,
     EventEmitter,
     Input,
+    isDevMode,
     OnChanges,
     OnDestroy,
     OnInit,
@@ -17,6 +18,7 @@ import { NgxMentionListComponent } from './ngx-mention-list/ngx-mention-list.com
 import {
     NgxMention,
     NgxMentionConfig,
+    NgxMentions,
     NgxMentionTemplate,
 } from './ngx-mention.config';
 
@@ -24,7 +26,7 @@ import {
     selector: '[ncNgxMention]',
 })
 export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
-    @Input('ncNgxMention') public items: any[] = [];
+    @Input('ncNgxMention') public items: NgxMentions = [];
     @Input() public ngxMentionConfig: NgxMentionConfig = {};
     @Input() public customTemplate?: NgxMentionTemplate;
 
@@ -59,6 +61,9 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
             minimalCharacters: 0,
             disableSearch: false,
             dropUp: false,
+            formatSelected: (item) => {
+                return item.value;
+            },
         };
     }
 
@@ -171,7 +176,7 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
      * @author Roy Freij <info@royfreij.nl>
      * @version 1.0.0
      */
-    private async startSearching(searchValue) {
+    private async startSearching(searchValue: string) {
         let matches: NgxMention[];
 
         this.searchTerm.emit(searchValue);
@@ -180,12 +185,13 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
         if (!this.ngxMentionConfig.disableSearch) {
             matches = this.items.filter((item: NgxMention) => {
-                if (this.customTemplate) {
+                if (this.customTemplate?.label) {
                     return item[this.customTemplate.label]
                         .toLowerCase()
                         .startsWith(searchValue.toLowerCase());
                 } else {
-                    return item.value
+                    return this.ngxMentionConfig
+                        .formatSelected(item)
                         .toLowerCase()
                         .startsWith(searchValue.toLowerCase());
                 }
@@ -209,10 +215,18 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
             let selectedItemValue: string;
 
-            if (this.customTemplate) {
+            if (this.customTemplate?.label) {
                 selectedItemValue = selectedItem[this.customTemplate.label];
+
+                if (isDevMode()) {
+                    console.warn(
+                        'ngx-mention: Usage of the customTemplate.label property is deprecated and will be removed in the next major version. Please use the formatSelected configuration callback instead.',
+                    );
+                }
             } else {
-                selectedItemValue = selectedItem.value;
+                selectedItemValue = this.ngxMentionConfig.formatSelected(
+                    selectedItem,
+                );
             }
 
             this.nativeElement.value =
