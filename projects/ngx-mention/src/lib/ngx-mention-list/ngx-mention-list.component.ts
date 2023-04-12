@@ -25,10 +25,10 @@ export class NgxMentionListComponent {
     public items: NgxMention[] = [];
     public hidden = true;
     public activeIndex = 0;
-    public ngxMentionConfig!: NgxMentionConfig;
-    public customTemplate!: NgxMentionTemplate;
+    public ngxMentionConfig: NgxMentionConfig;
+    public customTemplate: NgxMentionTemplate;
 
-    @ViewChild('container') public container!: ElementRef;
+    @ViewChild('container') public container: ElementRef;
     @Output() itemClick: EventEmitter<void>;
 
     constructor(
