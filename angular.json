@@ -58,7 +58,8 @@
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
                         "outputPath": "docs",
-                        "baseHref": "/ngx-mention",
+                        "baseHref": "/ngx-mention/",
+                        "deployUrl": "/ngx-mention/",
                         "index": "projects/demo-app/src/index.html",
                         "main": "projects/demo-app/src/main.ts",
                         "polyfills": "projects/demo-app/src/polyfills.ts",
