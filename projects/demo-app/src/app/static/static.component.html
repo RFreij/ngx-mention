@@ -1,126 +1,126 @@
 <div style="padding: 24px">
-    <h2>Default configuration</h2>
+  <h2>Default configuration</h2>
 
-    <p>
-        For a complete list of values that are available (generated faker
-        usernames) please go to
-        <a href="./assets/users.json">The json file</a>
-    </p>
+  <p>
+    For a complete list of values that are available (generated faker usernames)
+    please go to
+    <a href="./assets/users.json">The json file</a>
+  </p>
 
-    <input
-        type="text"
-        [ncNgxMention]="items"
-        style="position: relative; line-height: 20px"
-    />
+  <input
+    type="text"
+    [ncNgxMention]="items"
+    style="position: relative; line-height: 20px"
+  />
 
-    <textarea
-        [ncNgxMention]="items"
-        style="position: relative; line-height: 20px"
-    ></textarea>
+  <textarea
+    [ncNgxMention]="items"
+    style="position: relative; line-height: 20px"
+  ></textarea>
 
-    <h2>Custom search</h2>
+  <h2>Custom search</h2>
 
-    <p>
-        Using disableSearch and the searchTerm output we can change the
-        behaviour of how search is being handled. Default search uses
-        startsWith, with the searchTerm Ouput we can change it to includes
-    </p>
+  <p>
+    Using disableSearch and the searchTerm output we can change the behaviour of
+    how search is being handled. Default search uses startsWith, with the
+    searchTerm Ouput we can change it to includes
+  </p>
 
-    <input
-        type="text"
-        [ncNgxMention]="customSearchItems"
-        [ngxMentionConfig]="customSearchNgxMentionConfig"
-        (searchTerm)="onCustomSearchMentionSearch($event)"
-        style="position: relative; line-height: 20px"
-    />
-    <textarea
-        [ncNgxMention]="customSearchItems"
-        [ngxMentionConfig]="customSearchNgxMentionConfig"
-        (searchTerm)="onCustomSearchMentionSearch($event)"
-        style="position: relative; line-height: 20px"
-    ></textarea>
+  <input
+    type="text"
+    [ncNgxMention]="customSearchItems"
+    [ngxMentionConfig]="customSearchNgxMentionConfig"
+    (searchTerm)="onCustomSearchMentionSearch($event)"
+    style="position: relative; line-height: 20px"
+  />
+  <textarea
+    [ncNgxMention]="customSearchItems"
+    [ngxMentionConfig]="customSearchNgxMentionConfig"
+    (searchTerm)="onCustomSearchMentionSearch($event)"
+    style="position: relative; line-height: 20px"
+  ></textarea>
 
-    <h2>Custom denotation character</h2>
+  <h2>Custom denotation character</h2>
 
-    <p>
-        We can change the denotation character to any character we want, here we
-        have set the character to '$'
-    </p>
+  <p>
+    We can change the denotation character to any character we want, here we
+    have set the character to '$'
+  </p>
 
-    <input
-        type="text"
-        [ncNgxMention]="customSearchItems"
-        [ngxMentionConfig]="customDenotationCharacterConfig"
-        style="position: relative; line-height: 20px"
-    />
-    <textarea
-        [ncNgxMention]="customSearchItems"
-        [ngxMentionConfig]="customDenotationCharacterConfig"
-        style="position: relative; line-height: 20px"
-    ></textarea>
+  <input
+    type="text"
+    [ncNgxMention]="customSearchItems"
+    [ngxMentionConfig]="customDenotationCharacterConfig"
+    style="position: relative; line-height: 20px"
+  />
+  <textarea
+    [ncNgxMention]="customSearchItems"
+    [ngxMentionConfig]="customDenotationCharacterConfig"
+    style="position: relative; line-height: 20px"
+  ></textarea>
 
-    <h2>Minimal character configuration</h2>
+  <h2>Minimal character configuration</h2>
 
-    <p>
-        We can change the amount of characters have to be typed before search
-        will kick in. Below the configuration is set to '3'
-    </p>
+  <p>
+    We can change the amount of characters have to be typed before search will
+    kick in. Below the configuration is set to '3'
+  </p>
 
-    <input
-        type="text"
-        [ncNgxMention]="customSearchItems"
-        [ngxMentionConfig]="minCharactersConfig"
-        (search)="onMinCharacterSearchMentionSearch($event)"
-        style="position: relative; line-height: 20px"
-    />
-    <textarea
-        [ncNgxMention]="customSearchItems"
-        [ngxMentionConfig]="minCharactersConfig"
-        (search)="onMinCharacterSearchMentionSearch($event)"
-        style="position: relative; line-height: 20px"
-    ></textarea>
+  <input
+    type="text"
+    [ncNgxMention]="customSearchItems"
+    [ngxMentionConfig]="minCharactersConfig"
+    (searchTerm)="onMinCharacterSearchMentionSearch($event)"
+    style="position: relative; line-height: 20px"
+  />
+  <textarea
+    [ncNgxMention]="customSearchItems"
+    [ngxMentionConfig]="minCharactersConfig"
+    (searchTerm)="onMinCharacterSearchMentionSearch($event)"
+    style="position: relative; line-height: 20px"
+  ></textarea>
 
-    <h2>Drop up configuration</h2>
+  <h2>Drop up configuration</h2>
 
-    <p>
-        Sometimes it is needed to have the mention list drop up instead of down.
-        The dropUp configuration will fix this for you.
-    </p>
+  <p>
+    Sometimes it is needed to have the mention list drop up instead of down. The
+    dropUp configuration will fix this for you.
+  </p>
 
-    <input
-        type="text"
-        [ncNgxMention]="dropUpItems"
-        [ngxMentionConfig]="dropUpConfig"
-        style="position: relative; line-height: 20px"
-    />
-    <textarea
-        [ncNgxMention]="dropUpItems"
-        [ngxMentionConfig]="dropUpConfig"
-        style="position: relative; line-height: 20px"
-    ></textarea>
+  <input
+    type="text"
+    [ncNgxMention]="dropUpItems"
+    [ngxMentionConfig]="dropUpConfig"
+    style="position: relative; line-height: 20px"
+  />
+  <textarea
+    [ncNgxMention]="dropUpItems"
+    [ngxMentionConfig]="dropUpConfig"
+    style="position: relative; line-height: 20px"
+  ></textarea>
 
-    <h2>Custom template</h2>
+  <h2>Custom template</h2>
 
-    <ng-template #customTemplate let-item="item">
-        {{ item.username }} {{ item.id }}
-    </ng-template>
+  <ng-template #customTemplate let-item="item">
+    {{ item.username }} {{ item.id }}
+  </ng-template>
 
-    <p>
-        You may wish to use a custom template to alter the search results. The
-        customTemplate input provides that ability.
-    </p>
+  <p>
+    You may wish to use a custom template to alter the search results. The
+    customTemplate input provides that ability.
+  </p>
 
-    <input
-        type="text"
-        [ncNgxMention]="customTemplateItems"
-        [ngxMentionConfig]="customTemplateConfig"
-        [customTemplate]="{ template: customTemplate }"
-        style="position: relative; line-height: 20px"
-    />
-    <textarea
-        [ncNgxMention]="customTemplateItems"
-        [ngxMentionConfig]="customTemplateConfig"
-        [customTemplate]="{ template: customTemplate }"
-        style="position: relative; line-height: 20px"
-    ></textarea>
+  <input
+    type="text"
+    [ncNgxMention]="customTemplateItems"
+    [ngxMentionConfig]="customTemplateConfig"
+    [customTemplate]="{ template: customTemplate }"
+    style="position: relative; line-height: 20px"
+  />
+  <textarea
+    [ncNgxMention]="customTemplateItems"
+    [ngxMentionConfig]="customTemplateConfig"
+    [customTemplate]="{ template: customTemplate }"
+    style="position: relative; line-height: 20px"
+  ></textarea>
 </div>

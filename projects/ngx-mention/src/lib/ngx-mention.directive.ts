@@ -1,339 +1,316 @@
 import {
-    ComponentFactoryResolver,
-    Directive,
-    ElementRef,
-    EventEmitter,
-    Input,
-    isDevMode,
-    OnChanges,
-    OnDestroy,
-    OnInit,
-    Output,
-    SimpleChanges,
-    ViewContainerRef,
+  Directive,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewContainerRef,
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
 import { NgxMentionListComponent } from './ngx-mention-list/ngx-mention-list.component';
 import {
-    NgxMention,
-    NgxMentionConfig,
-    NgxMentions,
-    NgxMentionTemplate,
+  NgxMention,
+  NgxMentionConfig,
+  NgxMentions,
+  NgxMentionTemplate,
 } from './ngx-mention.config';
 
 @Directive({
-    selector: '[ncNgxMention]',
+  selector: '[ncNgxMention]',
 })
 export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
-    @Input('ncNgxMention') public items: NgxMentions = [];
-    @Input() public ngxMentionConfig: NgxMentionConfig = {};
-    @Input() public customTemplate?: NgxMentionTemplate;
+  @Input('ncNgxMention') public items: NgxMentions = [];
+  @Input() public ngxMentionConfig: NgxMentionConfig = {};
+  @Input() public customTemplate?: NgxMentionTemplate;
 
-    @Output() searchTerm: EventEmitter<string>;
-    @Output() selectItem: EventEmitter<NgxMention>;
+  @Output() searchTerm: EventEmitter<string>;
+  @Output() selectItem: EventEmitter<NgxMention>;
 
-    private keyDown$: Subscription;
-    private input$: Subscription;
-    private blur$: Subscription;
-    private mentionListItemClick$: Subscription;
+  private keyDown$!: Subscription;
+  private input$!: Subscription;
+  private blur$!: Subscription;
+  private mentionListItemClick$!: Subscription;
 
-    private defaultConfig: NgxMentionConfig;
+  private defaultConfig: NgxMentionConfig;
 
-    private startIndex: number;
-    private searching = false;
-    private nativeElement: HTMLInputElement | HTMLTextAreaElement;
+  private startIndex!: number;
+  private searching = false;
+  private nativeElement!: HTMLInputElement | HTMLTextAreaElement;
 
-    private mentionList: NgxMentionListComponent = null;
+  private mentionList: NgxMentionListComponent | null = null;
 
-    constructor(
-        private readonly elementRef: ElementRef<
-            HTMLInputElement | HTMLTextAreaElement
-        >,
-        private readonly componentResolver: ComponentFactoryResolver,
-        private readonly viewContainerRef: ViewContainerRef,
-    ) {
-        this.searchTerm = new EventEmitter();
-        this.selectItem = new EventEmitter();
+  constructor(
+    private readonly elementRef: ElementRef<
+      HTMLInputElement | HTMLTextAreaElement
+    >,
+    private readonly viewContainerRef: ViewContainerRef
+  ) {
+    this.searchTerm = new EventEmitter();
+    this.selectItem = new EventEmitter();
 
-        this.defaultConfig = {
-            denotationCharacter: '@',
-            minimalCharacters: 0,
-            disableSearch: false,
-            dropUp: false,
-            formatSelected: (item) => {
-                return item.value;
-            },
-        };
-    }
+    this.defaultConfig = {
+      denotationCharacter: '@',
+      minimalCharacters: 0,
+      disableSearch: false,
+      dropUp: false,
+      formatSelected: (item) => {
+        return item.value;
+      },
+    };
+  }
 
-    /**
-     * on init
-     *
-     * @author Roy Freij <info@royfreij.nl>
-     * @version 1.0.0
-     */
-    public ngOnInit(): void {
-        this.ngxMentionConfig = {
-            ...this.defaultConfig,
-            ...this.ngxMentionConfig,
-        };
+  /**
+   * on init
+   *
+   * @author Roy Freij <info@royfreij.nl>
+   * @version 1.0.0
+   */
+  public ngOnInit(): void {
+    this.ngxMentionConfig = {
+      ...this.defaultConfig,
+      ...this.ngxMentionConfig,
+    };
 
-        this.nativeElement = this.elementRef.nativeElement;
+    this.nativeElement = this.elementRef.nativeElement;
 
-        this.input$ = fromEvent(this.nativeElement, 'input').subscribe(() => {
-            const mentionDenotationCharacter = this.ngxMentionConfig
-                .denotationCharacter;
+    this.input$ = fromEvent(this.nativeElement, 'input').subscribe(() => {
+      const mentionDenotationCharacter =
+        this.ngxMentionConfig.denotationCharacter;
 
-            if (this.nativeElement.value.endsWith(mentionDenotationCharacter)) {
-                this.startIndex = this.nativeElement.value.length;
-                this.searching = true;
-            }
+      if (
+        mentionDenotationCharacter &&
+        this.nativeElement.value.endsWith(mentionDenotationCharacter)
+      ) {
+        this.startIndex = this.nativeElement.value.length;
+        this.searching = true;
+      }
 
-            const endIndex = this.nativeElement.value.length;
+      const endIndex = this.nativeElement.value.length;
 
-            const searchValue = this.nativeElement.value.substring(
-                this.startIndex,
-                endIndex,
-            );
+      const searchValue = this.nativeElement.value.substring(
+        this.startIndex,
+        endIndex
+      );
 
-            if (
-                this.searching &&
-                searchValue.length >= this.ngxMentionConfig.minimalCharacters
-            ) {
-                if (endIndex < this.startIndex) {
-                    this.stopSearch();
-                } else {
-                    this.startSearching(searchValue);
-                }
-            }
-        });
-
-        this.keyDown$ = fromEvent(this.nativeElement, 'keydown')
-            .pipe(
-                distinctUntilChanged(),
-                filter(($event: KeyboardEvent) => {
-                    return $event.key !== 'Shift';
-                }),
-            )
-            .subscribe(($event: KeyboardEvent) => {
-                if (!this.mentionList?.hidden && this.searching) {
-                    switch ($event.key) {
-                        case 'Tab':
-                        case 'Enter':
-                            this.stopEvent($event);
-                            this.onItemSelect();
-                            break;
-                        case 'Escape':
-                            this.stopSearch();
-                            break;
-                        case 'ArrowDown':
-                            this.stopEvent($event);
-                            this.mentionList.activateNextItem();
-                            break;
-                        case 'ArrowUp':
-                            this.stopEvent($event);
-                            this.mentionList.activatePreviousItem();
-                            break;
-                        default:
-                    }
-                }
-            });
-
-        this.blur$ = fromEvent(this.nativeElement, 'blur').subscribe(
-            ($event) => {
-                if ($event instanceof KeyboardEvent) {
-                    this.stopEvent($event);
-                    this.stopSearch();
-                }
-            },
-        );
-    }
-
-    /**
-     * on changes
-     *
-     * @param changes
-     *
-     * @author Roy Freij <info@royfreij.nl>
-     * @version 1.0.0
-     */
-    public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.items && !changes.items.firstChange) {
-            this.updateMentionListItems(this.items);
-
-            if (changes.items.currentValue.length === 0) {
-                this.stopSearch();
-            }
+      if (
+        this.searching &&
+        searchValue.length >= (this.ngxMentionConfig?.minimalCharacters || 0)
+      ) {
+        if (endIndex < this.startIndex) {
+          this.stopSearch();
+        } else {
+          this.startSearching(searchValue);
         }
-    }
+      }
+    });
 
-    /**
-     * Starts searching
-     *
-     * @param endIndex
-     *
-     * @author Roy Freij <info@royfreij.nl>
-     * @version 1.0.0
-     */
-    private async startSearching(searchValue: string) {
-        let matches: NgxMention[];
-
-        this.searchTerm.emit(searchValue);
-
-        this.showMentionList();
-
-        if (!this.ngxMentionConfig.disableSearch) {
-            matches = this.items.filter((item: NgxMention) => {
-                if (this.customTemplate?.label) {
-                    return item[this.customTemplate.label]
-                        .toLowerCase()
-                        .startsWith(searchValue.toLowerCase());
-                } else {
-                    return this.ngxMentionConfig
-                        .formatSelected(item)
-                        .toLowerCase()
-                        .startsWith(searchValue.toLowerCase());
-                }
-            });
-
-            this.updateMentionListItems(matches);
+    this.keyDown$ = fromEvent(this.nativeElement, 'keydown')
+      .pipe(
+        // @ts-ignore
+        distinctUntilChanged(),
+        filter(($event: KeyboardEvent) => {
+          return $event.key !== 'Shift';
+        })
+      )
+      .subscribe(($event: KeyboardEvent) => {
+        if (!this.mentionList?.hidden && this.searching) {
+          switch ($event.key) {
+            case 'Tab':
+            case 'Enter':
+              this.stopEvent($event);
+              this.onItemSelect();
+              break;
+            case 'Escape':
+              this.stopSearch();
+              break;
+            case 'ArrowDown':
+              this.stopEvent($event);
+              this.mentionList?.activateNextItem();
+              break;
+            case 'ArrowUp':
+              this.stopEvent($event);
+              this.mentionList?.activatePreviousItem();
+              break;
+            default:
+          }
         }
+      });
+
+    this.blur$ = fromEvent(this.nativeElement, 'blur').subscribe(($event) => {
+      if ($event instanceof KeyboardEvent) {
+        this.stopEvent($event);
+        this.stopSearch();
+      }
+    });
+  }
+
+  /**
+   * on changes
+   *
+   * @param changes
+   *
+   * @author Roy Freij <info@royfreij.nl>
+   * @version 1.0.0
+   */
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes['items'] && !changes['items'].firstChange) {
+      this.updateMentionListItems(this.items);
+
+      if (changes['items'].currentValue.length === 0) {
+        this.stopSearch();
+      }
     }
+  }
 
-    /**
-     * Determines whether item is selected
-     *
-     * @author Roy Freij <info@royfreij.nl>
-     * @version 1.0.0
-     */
-    private onItemSelect(): void {
-        if (this.mentionList) {
-            const selectedItem = this.mentionList.items[
-                this.mentionList.activeIndex
-            ];
+  /**
+   * Starts searching
+   *
+   * @param endIndex
+   *
+   * @author Roy Freij <info@royfreij.nl>
+   * @version 1.0.0
+   */
+  private async startSearching(searchValue: string) {
+    let matches: NgxMention[];
 
-            let selectedItemValue: string;
+    this.searchTerm.emit(searchValue);
 
-            if (this.customTemplate?.label) {
-                selectedItemValue = selectedItem[this.customTemplate.label];
+    this.showMentionList();
 
-                if (isDevMode()) {
-                    console.warn(
-                        'ngx-mention: Usage of the customTemplate.label property is deprecated and will be removed in the next major version. Please use the formatSelected configuration callback instead.',
-                    );
-                }
-            } else {
-                selectedItemValue = this.ngxMentionConfig.formatSelected(
-                    selectedItem,
-                );
-            }
-
-            this.nativeElement.value =
-                this.nativeElement.value.substring(0, this.startIndex) +
-                selectedItemValue +
-                ' ';
-
-            this.nativeElement.focus();
-
-            const valueLength = this.nativeElement.value.length;
-            this.nativeElement.setSelectionRange(valueLength, valueLength);
-            this.nativeElement.dispatchEvent(new Event('input'));
-
-            this.selectItem.emit(selectedItem);
-            this.stopSearch();
-        }
-    }
-
-    /**
-     * Updates mention list items
-     *
-     * @param items
-     *
-     * @author Roy Freij <info@royfreij.nl>
-     * @version 1.0.0
-     */
-    private updateMentionListItems(items: NgxMention[]) {
-        if (this.mentionList) {
-            this.mentionList.items = items;
-            this.mentionList.hidden = items.length === 0;
-            this.mentionList.resetScrollTop();
-        }
-    }
-
-    /**
-     * Shows mention list
-     *
-     * @author Roy Freij <info@royfreij.nl>
-     * @version 1.0.0
-     */
-    private showMentionList() {
-        if (this.mentionList === null) {
-            const componentFactory = this.componentResolver.resolveComponentFactory(
-                NgxMentionListComponent,
-            );
-            const componentRef = this.viewContainerRef.createComponent(
-                componentFactory,
-            );
-
-            this.mentionList = componentRef.instance;
+    if (!this.ngxMentionConfig.disableSearch) {
+      matches = this.items.filter((item: NgxMention) => {
+        if (this.ngxMentionConfig.formatSelected) {
+          item.value = this.ngxMentionConfig.formatSelected(item);
         }
 
-        this.mentionList.activeIndex = 0;
-        this.mentionList.position(this.nativeElement);
-        this.mentionList.resetScrollTop();
-        this.mentionList.ngxMentionConfig = this.ngxMentionConfig;
+        return item.value.toLowerCase().startsWith(searchValue.toLowerCase());
+      });
 
-        if (this.customTemplate) {
-            this.mentionList.customTemplate = this.customTemplate;
-        }
+      this.updateMentionListItems(matches);
+    }
+  }
 
-        if (!this.mentionListItemClick$) {
-            this.mentionListItemClick$ = this.mentionList.itemClick.subscribe(
-                () => {
-                    this.onItemSelect();
-                },
-            );
-        }
+  /**
+   * Determines whether item is selected
+   *
+   * @author Roy Freij <info@royfreij.nl>
+   * @version 1.0.0
+   */
+  private onItemSelect(): void {
+    if (this.mentionList) {
+      const selectedItem = this.mentionList.items[this.mentionList.activeIndex];
+
+      let selectedItemValue = selectedItem.value;
+
+      if (this.ngxMentionConfig.formatSelected) {
+        selectedItemValue = this.ngxMentionConfig.formatSelected(selectedItem);
+      }
+
+      this.nativeElement.value =
+        this.nativeElement.value.substring(0, this.startIndex) +
+        selectedItemValue +
+        ' ';
+
+      this.nativeElement.focus();
+
+      const valueLength = this.nativeElement.value.length;
+      this.nativeElement.setSelectionRange(valueLength, valueLength);
+      this.nativeElement.dispatchEvent(new Event('input'));
+
+      this.selectItem.emit(selectedItem);
+      this.stopSearch();
+    }
+  }
+
+  /**
+   * Updates mention list items
+   *
+   * @param items
+   *
+   * @author Roy Freij <info@royfreij.nl>
+   * @version 1.0.0
+   */
+  private updateMentionListItems(items: NgxMention[]) {
+    if (this.mentionList) {
+      this.mentionList.items = items;
+      this.mentionList.hidden = items.length === 0;
+      this.mentionList.resetScrollTop();
+    }
+  }
+
+  /**
+   * Shows mention list
+   *
+   * @author Roy Freij <info@royfreij.nl>
+   * @version 1.0.0
+   */
+  private showMentionList() {
+    if (this.mentionList === null) {
+      const componentRef = this.viewContainerRef.createComponent(
+        NgxMentionListComponent
+      );
+
+      this.mentionList = componentRef.instance;
     }
 
-    /**
-     * Stops event
-     *
-     * @param $event
-     *
-     * @author Roy Freij <info@royfreij.nl>
-     * @version 1.0.0
-     */
-    private stopEvent($event: KeyboardEvent): void {
-        $event.preventDefault();
-        $event.stopPropagation();
-        $event.stopImmediatePropagation();
+    this.mentionList.activeIndex = 0;
+    this.mentionList.position(this.nativeElement);
+    this.mentionList.resetScrollTop();
+    this.mentionList.ngxMentionConfig = this.ngxMentionConfig;
+
+    if (this.customTemplate) {
+      this.mentionList.customTemplate = this.customTemplate;
     }
 
-    /**
-     * Stops search
-     *
-     * @author Roy Freij <info@royfreij.nl>
-     * @version 1.0.0
-     */
-    private stopSearch() {
-        if (this.mentionList) {
-            this.mentionList.hidden = true;
-        }
+    if (!this.mentionListItemClick$) {
+      this.mentionListItemClick$ = this.mentionList.itemClick.subscribe(() => {
+        this.onItemSelect();
+      });
+    }
+  }
 
-        this.searching = false;
+  /**
+   * Stops event
+   *
+   * @param $event
+   *
+   * @author Roy Freij <info@royfreij.nl>
+   * @version 1.0.0
+   */
+  private stopEvent($event: KeyboardEvent): void {
+    $event.preventDefault();
+    $event.stopPropagation();
+    $event.stopImmediatePropagation();
+  }
+
+  /**
+   * Stops search
+   *
+   * @author Roy Freij <info@royfreij.nl>
+   * @version 1.0.0
+   */
+  private stopSearch() {
+    if (this.mentionList) {
+      this.mentionList.hidden = true;
     }
 
-    /**
-     * on destroy
-     *
-     * @author Roy Freij <roy@bsbip.com>
-     * @version 1.0.0
-     */
-    public ngOnDestroy(): void {
-        this.input$.unsubscribe();
-        this.keyDown$.unsubscribe();
-        this.blur$.unsubscribe();
-    }
+    this.searching = false;
+  }
+
+  /**
+   * on destroy
+   *
+   * @author Roy Freij <roy@bsbip.com>
+   * @version 1.0.0
+   */
+  public ngOnDestroy(): void {
+    this.input$.unsubscribe();
+    this.keyDown$.unsubscribe();
+    this.blur$.unsubscribe();
+  }
 }
