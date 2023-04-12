@@ -19,6 +19,7 @@ speed-measure-plugin*.json
 .angular
 .project
 .classpath
+.angular
 .c9/
 *.launch
 .settings/
