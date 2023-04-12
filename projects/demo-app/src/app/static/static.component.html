@@ -70,13 +70,13 @@
         type="text"
         [ncNgxMention]="customSearchItems"
         [ngxMentionConfig]="minCharactersConfig"
-        (search)="onMinCharacterSearchMentionSearch($event)"
+        (searchTerm)="onMinCharacterSearchMentionSearch($event)"
         style="position: relative; line-height: 20px"
     />
     <textarea
         [ncNgxMention]="customSearchItems"
         [ngxMentionConfig]="minCharactersConfig"
-        (search)="onMinCharacterSearchMentionSearch($event)"
+        (searchTerm)="onMinCharacterSearchMentionSearch($event)"
         style="position: relative; line-height: 20px"
     ></textarea>
 
@@ -114,13 +114,13 @@
         type="text"
         [ncNgxMention]="customTemplateItems"
         [ngxMentionConfig]="customTemplateConfig"
-        [customTemplate]="customTemplate"
+        [customTemplate]="{ template: customTemplate }"
         style="position: relative; line-height: 20px"
     />
     <textarea
         [ncNgxMention]="customTemplateItems"
         [ngxMentionConfig]="customTemplateConfig"
-        [customTemplate]="customTemplate"
+        [customTemplate]="{ template: customTemplate }"
         style="position: relative; line-height: 20px"
     ></textarea>
 </div>

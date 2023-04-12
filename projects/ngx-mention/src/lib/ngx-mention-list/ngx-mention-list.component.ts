@@ -9,7 +9,7 @@ import {
     ViewChild,
 } from '@angular/core';
 import { getCaretCoordinates } from '../caret-coords';
-import { NgxMention, NgxMentionConfig } from '../ngx-mention.config';
+import { NgxMention, NgxMentionConfig, NgxMentionTemplate } from '../ngx-mention.config';
 
 const FIRST_ITEM_INDEX = 0;
 const SELECTED_CLASS = 'ngx-mention__item--selected';
@@ -23,10 +23,10 @@ export class NgxMentionListComponent {
     public items: NgxMention[] = [];
     public hidden = true;
     public activeIndex = 0;
-    public ngxMentionConfig: NgxMentionConfig;
-    public customTemplate: TemplateRef<NgTemplateOutlet>;
+    public ngxMentionConfig!: NgxMentionConfig;
+    public customTemplate!: NgxMentionTemplate;
 
-    @ViewChild('container') public container: ElementRef;
+    @ViewChild('container') public container!: ElementRef;
     @Output() itemClick: EventEmitter<void>;
 
     constructor(

@@ -1,6 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
 import {
-    ComponentFactoryResolver,
     Directive,
     ElementRef,
     EventEmitter,
@@ -10,7 +9,6 @@ import {
     OnInit,
     Output,
     SimpleChanges,
-    TemplateRef,
     ViewContainerRef,
 } from '@angular/core';
 import { fromEvent, Subscription } from 'rxjs';
@@ -20,6 +18,7 @@ import {
     NgxMention,
     NgxMentionConfig,
     NgxMentions,
+    NgxMentionTemplate,
 } from './ngx-mention.config';
 
 @Directive({
@@ -28,30 +27,29 @@ import {
 export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
     @Input('ncNgxMention') public items: NgxMentions = [];
     @Input() public ngxMentionConfig: NgxMentionConfig = {};
-    @Input() public customTemplate?: TemplateRef<NgTemplateOutlet>;
+    @Input() public customTemplate?: NgxMentionTemplate;
 
     @Output() searchTerm: EventEmitter<string>;
     @Output() selectItem: EventEmitter<NgxMention>;
 
-    private keyDown$: Subscription;
-    private input$: Subscription;
-    private blur$: Subscription;
-    private mentionListItemClick$: Subscription;
+    private keyDown$!: Subscription;
+    private input$!: Subscription;
+    private blur$!: Subscription;
+    private mentionListItemClick$!: Subscription;
 
     private defaultConfig: NgxMentionConfig;
 
-    private startIndex: number;
+    private startIndex!: number;
     private searching = false;
-    private nativeElement: HTMLInputElement | HTMLTextAreaElement;
+    private nativeElement!: HTMLInputElement | HTMLTextAreaElement;
 
-    private mentionList: NgxMentionListComponent = null;
+    private mentionList: NgxMentionListComponent | null = null;
 
     constructor(
         private readonly elementRef: ElementRef<
             HTMLInputElement | HTMLTextAreaElement
         >,
-        private readonly componentResolver: ComponentFactoryResolver,
-        private readonly viewContainerRef: ViewContainerRef,
+        private readonly viewContainerRef: ViewContainerRef
     ) {
         this.searchTerm = new EventEmitter();
         this.selectItem = new EventEmitter();
@@ -82,10 +80,13 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
         this.nativeElement = this.elementRef.nativeElement;
 
         this.input$ = fromEvent(this.nativeElement, 'input').subscribe(() => {
-            const mentionDenotationCharacter = this.ngxMentionConfig
-                .denotationCharacter;
+            const mentionDenotationCharacter =
+                this.ngxMentionConfig.denotationCharacter;
 
-            if (this.nativeElement.value.endsWith(mentionDenotationCharacter)) {
+            if (
+                mentionDenotationCharacter &&
+                this.nativeElement.value.endsWith(mentionDenotationCharacter)
+            ) {
                 this.startIndex = this.nativeElement.value.length;
                 this.searching = true;
             }
@@ -94,12 +95,12 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
             const searchValue = this.nativeElement.value.substring(
                 this.startIndex,
-                endIndex,
+                endIndex
             );
 
             if (
                 this.searching &&
-                searchValue.length >= this.ngxMentionConfig.minimalCharacters
+                searchValue.length >= (this.ngxMentionConfig?.minimalCharacters || 0)
             ) {
                 if (endIndex < this.startIndex) {
                     this.stopSearch();
@@ -111,10 +112,11 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
         this.keyDown$ = fromEvent(this.nativeElement, 'keydown')
             .pipe(
+                // @ts-ignore
                 distinctUntilChanged(),
                 filter(($event: KeyboardEvent) => {
                     return $event.key !== 'Shift';
-                }),
+                })
             )
             .subscribe(($event: KeyboardEvent) => {
                 if (!this.mentionList?.hidden && this.searching) {
@@ -129,25 +131,23 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
                             break;
                         case 'ArrowDown':
                             this.stopEvent($event);
-                            this.mentionList.activateNextItem();
+                            this.mentionList?.activateNextItem();
                             break;
                         case 'ArrowUp':
                             this.stopEvent($event);
-                            this.mentionList.activatePreviousItem();
+                            this.mentionList?.activatePreviousItem();
                             break;
                         default:
                     }
                 }
             });
 
-        this.blur$ = fromEvent(this.nativeElement, 'blur').subscribe(
-            ($event) => {
-                if ($event instanceof KeyboardEvent) {
-                    this.stopEvent($event);
-                    this.stopSearch();
-                }
-            },
-        );
+        this.blur$ = fromEvent(this.nativeElement, 'blur').subscribe(($event) => {
+            if ($event instanceof KeyboardEvent) {
+                this.stopEvent($event);
+                this.stopSearch();
+            }
+        });
     }
 
     /**
@@ -159,10 +159,10 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
      * @version 1.0.0
      */
     public ngOnChanges(changes: SimpleChanges): void {
-        if (changes.items && !changes.items.firstChange) {
+        if (changes['items'] && !changes['items'].firstChange) {
             this.updateMentionListItems(this.items);
 
-            if (changes.items.currentValue.length === 0) {
+            if (changes['items'].currentValue.length === 0) {
                 this.stopSearch();
             }
         }
@@ -185,10 +185,11 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
 
         if (!this.ngxMentionConfig.disableSearch) {
             matches = this.items.filter((item: NgxMention) => {
-                return this.ngxMentionConfig
-                    .formatSelected(item)
-                    .toLowerCase()
-                    .startsWith(searchValue.toLowerCase());
+                if (this.ngxMentionConfig.formatSelected) {
+                    item.value = this.ngxMentionConfig.formatSelected(item);
+                }
+
+                return item.value.toLowerCase().startsWith(searchValue.toLowerCase());
             });
 
             this.updateMentionListItems(matches);
@@ -203,13 +204,13 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
      */
     private onItemSelect(): void {
         if (this.mentionList) {
-            const selectedItem = this.mentionList.items[
-                this.mentionList.activeIndex
-            ];
+            const selectedItem = this.mentionList.items[this.mentionList.activeIndex];
 
-            const selectedItemValue = this.ngxMentionConfig.formatSelected(
-                selectedItem,
-            );
+            let selectedItemValue = selectedItem.value;
+
+            if (this.ngxMentionConfig.formatSelected) {
+                selectedItemValue = this.ngxMentionConfig.formatSelected(selectedItem);
+            }
 
             this.nativeElement.value =
                 this.nativeElement.value.substring(0, this.startIndex) +
@@ -251,11 +252,8 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
      */
     private showMentionList() {
         if (this.mentionList === null) {
-            const componentFactory = this.componentResolver.resolveComponentFactory(
-                NgxMentionListComponent,
-            );
             const componentRef = this.viewContainerRef.createComponent(
-                componentFactory,
+                NgxMentionListComponent
             );
 
             this.mentionList = componentRef.instance;
@@ -271,11 +269,9 @@ export class NgxMentionDirective implements OnInit, OnChanges, OnDestroy {
         }
 
         if (!this.mentionListItemClick$) {
-            this.mentionListItemClick$ = this.mentionList.itemClick.subscribe(
-                () => {
-                    this.onItemSelect();
-                },
-            );
+            this.mentionListItemClick$ = this.mentionList.itemClick.subscribe(() => {
+                this.onItemSelect();
+            });
         }
     }
 
