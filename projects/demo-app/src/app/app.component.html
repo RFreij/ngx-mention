@@ -1,8 +1,12 @@
 <mat-sidenav-container class="container">
     <mat-sidenav #sidenav mode="side" [(opened)]="opened" style="width: 15%">
         <mat-nav-list>
-            <a mat-list-item [routerLink]="'/static'">Statische voorbeelden</a>
-            <a mat-list-item [routerLink]="'/async'"> Async voorbeelden </a>
+            <a mat-list-item routerLink="/ngx-mention/static">
+                Statische voorbeelden
+            </a>
+            <a mat-list-item routerLink="/ngx-mention/async">
+                Async voorbeelden
+            </a>
         </mat-nav-list>
     </mat-sidenav>
 

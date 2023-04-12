@@ -17,18 +17,22 @@ import { StaticComponent } from './static/static.component';
 
 const routes: Routes = [
     {
-        path: '',
-        redirectTo: 'static',
-        pathMatch: 'full',
-    },
-    {
-        path: 'static',
-        component: StaticComponent,
-    },
-    {
-        path: 'async',
-        component: AsyncComponent,
-    },
+        path: 'ngx-mention',
+        children: [
+            {
+                path: '',
+                redirectTo: 'static'
+            },
+            {
+                path: 'static',
+                component: StaticComponent,
+            },
+            {
+                path: 'async',
+                component: AsyncComponent,
+            },
+        ]
+    }
 ];
 
 @NgModule({
@@ -53,4 +57,4 @@ const routes: Routes = [
     ],
     bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
